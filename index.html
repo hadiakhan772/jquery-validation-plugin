@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registeration</title>
+    <link type="image/png" sizes="16x16" rel="icon" href=".../icons8-registration-sf-black-filled-16.png">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="icon" href="favicon/icon.png">
+    <style>
+        .error {
+            color: red;
+        }
+
+        .c1 {
+            border: 1px red ridge;
+        }
+
+        .c2 {
+            border: 1px rgb(23, 210, 70);
+        }
+    </style>
+</head>
+
+<body class="bg-info bg-gradient">
+    <div class="container mt-3">
+        <h2 class="text-center mb-4 text-light h1">Student Registration Form</h2>
+        <form class="shadow p-4 rounded bg-white mb-5" id="form1">
+            <!-- Personal Information Section -->
+            <div class="mb-3">
+                <h4>Personal Information</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" name="lastname">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label for="dob" class="form-label">Date of Birth</label>
+                        <input type="date" class="form-control" id="dob" name="dob">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Gender</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="gender[]" id="male" value="Male">
+                            <label class="form-check-label" for="male">Male</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="gender[]" id="female" value="Female">
+                            <label class="form-check-label" for="female">Female</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="gender[]" id="other" value="Other">
+                            <label class="form-check-label" for="other">Other</label>
+                        </div><br>
+                        <label for="gender[]" class="error" style="display: none;"></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Information Section -->
+            <div class="mb-3">
+                <h4>Contact Information</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="email" name="email">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" name="phone">
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <label for="address" class="form-label">Home Address</label>
+                    <textarea class="form-control" id="address" rows="3" name="address"></textarea>
+                </div>
+            </div>
+
+            <!-- Academic Information Section -->
+            <div class="mb-3">
+                <h4>Academic Information</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="studentId" class="form-label">Student ID</label>
+                        <input type="text" class="form-control" name="studentId">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Select Your Courses</label><br>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="Computer Science" name="check"
+                                id="course1">
+                            <label class="form-check-label" for="course1">
+                                Computer Science
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="Business Administration" id="course2"
+                                name="check">
+                            <label class="form-check-label" for="course2">
+                                Business Administration
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="Mechanical Engineering" id="course3"
+                                name="check">
+                            <label class="form-check-label" for="course3">
+                                Mechanical Engineering
+                            </label>
+                        </div>
+                        <label for="check" class="error"></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-grid">
+                <button type="submit" class="btn bg-info bg-gradient">Submit</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+<script src="jquery-3.7.1.js"></script>
+<script src="jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#form1').validate({
+        rules: {
+            firstName: {
+                required: true,
+                minlength: 3,
+            },
+            'gender[]': {
+                required: true
+            },
+            check: {
+                required: true
+            },
+            lastname: {
+                required: true,
+                minlength: 3
+            },
+            dob: {
+                required: true,
+                date: true,
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            phone: {
+                required: true,
+                digits: true,
+                minlength: 11,
+                maxlength: 11
+            },
+            address: {
+                required: true,
+                minlength: 5
+            },
+            studentId: {
+                required: true,
+                minlength: 3,
+                maxlength: 10,
+            }
+        },
+        messages: {
+            firstName: {
+                required: "Please enter your first name",
+                minlength: "Your first name must be at least 3 characters long"
+            },
+            lastname: {
+                required: "Please enter your last name",
+                minlength: "Your last name must be at least 3 characters long"
+            },
+            gender: {
+                required: "Please select your gender"
+            },
+            check: {
+                required: "You must agree to the terms"
+            },
+            dob: {
+                required: "Please enter your date of birth",
+                max: "Date of birth cannot be in the future"
+            },
+            email: {
+                required: "Please enter your email",
+                email: "Please enter a valid email address"
+            },
+            confirmEmail: {
+                required: "Please confirm your email",
+                equalTo: "Emails do not match"
+            },
+            phone: {
+                required: "Please enter your phone number",
+                digits: "Please enter a valid phone number",
+                minlength: "Phone number must be exactly 10 digits",
+                maxlength: "Phone number must be exactly 10 digits"
+            },
+            address: {
+                required: "Please enter your address",
+                minlength: "Address must be at least 5 characters long"
+            },
+            studentId: {
+                required: "Please enter your student ID",
+                minlength: "Student ID must be at least 5 characters long",
+                maxlength: "Student ID must be less than 10 characters",
+                pattern: "Student ID must be alphanumeric"
+            }
+        },
+        highlight: function (element) {
+            $(element).addClass("c1");
+        },
+        unhighlight: function (element) {
+            $(element).removeClass("c1");
+        },
+    });
+
+    });
+  
+</script>
+
+</html>
