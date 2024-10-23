@@ -154,7 +154,6 @@
             },
             email: {
                 required: true,
-                email: true
             },
             phone: {
                 required: true,
@@ -195,10 +194,6 @@
                 required: "Please enter your email",
                 email: "Please enter a valid email address"
             },
-            confirmEmail: {
-                required: "Please confirm your email",
-                equalTo: "Emails do not match"
-            },
             phone: {
                 required: "Please enter your phone number",
                 digits: "Please enter a valid phone number",
@@ -218,9 +213,12 @@
         },
         highlight: function (element) {
             $(element).addClass("c1");
+            $(element).addClass("is-invalid");
         },
         unhighlight: function (element) {
             $(element).removeClass("c1");
+            $(element).removeClass("is-invalid");
+            $(element).addClass("is-valid");
         },
     });
 
