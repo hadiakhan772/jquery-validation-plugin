@@ -7,7 +7,9 @@
     <title>Registeration</title>
     <link type="image/png" sizes="16x16" rel="icon" href=".../icons8-registration-sf-black-filled-16.png">
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="fileUpload/fileUpload.css">
     <link rel="icon" href="favicon/icon.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined">
     <style>
         .error {
             color: red;
@@ -19,6 +21,62 @@
 
         .c2 {
             border: 1px rgb(23, 210, 70);
+        }
+
+
+        .parent-div {
+            width: 60%;
+        }
+
+        .drop-zone {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border: 2px dashed #ccc;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative;
+            margin: 20px auto;
+        }
+
+        .drop-zone .image-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            border: 1px solid #ccc;
+            overflow: hidden;
+        }
+
+        .drop-zone img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .drop-zone .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(255, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 14px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .drop-zone span {
+            width: 100%;
+            text-align: center;
+            margin: 10px 0;
+            font-size: 16px;
+            color: #777;
         }
     </style>
 </head>
@@ -78,47 +136,16 @@
                     </div>
                 </div>
                 <div class="mt-3">
-                    <label for="address" class="form-label">Home Address</label>
-                    <textarea class="form-control" id="address" rows="3" name="address"></textarea>
+                    <div class="mb-3">
+                        <textarea id="bioInput" class="form-control" rows="4"
+                            placeholder="Write your bio here..."></textarea>
+                    </div>
+                    <button type="button" id="checkBtn" class="btn btn-primary">Check Bio</button>
+                </div>
+                <div class="parent-div mt-5">
+                    <div id="my-drop-zone"></div>
                 </div>
             </div>
-
-            <!-- Academic Information Section -->
-            <div class="mb-3">
-                <h4>Academic Information</h4>
-                <div class="row">
-                    <div class="col-md-6">
-                        <label for="studentId" class="form-label">Student ID</label>
-                        <input type="text" class="form-control" name="studentId">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Select Your Courses</label><br>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Computer Science" name="check"
-                                id="course1">
-                            <label class="form-check-label" for="course1">
-                                Computer Science
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Business Administration" id="course2"
-                                name="check">
-                            <label class="form-check-label" for="course2">
-                                Business Administration
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Mechanical Engineering" id="course3"
-                                name="check">
-                            <label class="form-check-label" for="course3">
-                                Mechanical Engineering
-                            </label>
-                        </div>
-                        <label for="check" class="error"></label>
-                    </div>
-                </div>
-            </div>
-
             <!-- Buttons -->
             <div class="d-flex justify-content-end align-items-end">
                 <button type="submit" class="btn btn-lg text-white bg-info bg-gradient px-5 mx-3">Submit</button>
@@ -131,100 +158,190 @@
 <script src="jquery-3.7.1.js"></script>
 <script src="jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script src="fileUpload/fileUpload.js"></script>
+
 <script>
     $(document).ready(function () {
         $('#form1').validate({
-        rules: {
-            firstName: {
-                required: true,
-                minlength: 3,
+            rules: {
+                firstName: {
+                    required: true,
+                    minlength: 3,
+                },
+                'gender[]': {
+                    required: true
+                },
+                lastname: {
+                    required: true,
+                    minlength: 3
+                },
+                dob: {
+                    required: true,
+                    date: true,
+                },
+                email: {
+                    required: true,
+                },
+                phone: {
+                    required: true,
+                    digits: true,
+                    minlength: 11,
+                    maxlength: 11
+                },
+                address: {
+                    required: true,
+                    minlength: 5
+                }
             },
-            'gender[]': {
-                required: true
+            messages: {
+                firstName: {
+                    required: "Please enter your first name",
+                    minlength: "Your first name must be at least 3 characters long"
+                },
+                lastname: {
+                    required: "Please enter your last name",
+                    minlength: "Your last name must be at least 3 characters long"
+                },
+                gender: {
+                    required: "Please select your gender"
+                },
+                dob: {
+                    required: "Please enter your date of birth",
+                    max: "Date of birth cannot be in the future"
+                },
+                email: {
+                    required: "Please enter your email",
+                    email: "Please enter a valid email address"
+                },
+                phone: {
+                    required: "Please enter your phone number",
+                    digits: "Please enter a valid phone number",
+                    minlength: "Phone number must be exactly 10 digits",
+                    maxlength: "Phone number must be exactly 10 digits"
+                },
+                address: {
+                    required: "Please enter your address",
+                    minlength: "Address must be at least 5 characters long"
+                },
             },
-            check: {
-                required: true
+            highlight: function (element) {
+                $(element).addClass("c1");
+                $(element).addClass("is-invalid");
             },
-            lastname: {
-                required: true,
-                minlength: 3
+            unhighlight: function (element) {
+                $(element).removeClass("c1");
+                $(element).removeClass("is-invalid");
+                $(element).addClass("is-valid");
             },
-            dob: {
-                required: true,
-                date: true,
-            },
-            email: {
-                required: true,
-            },
-            phone: {
-                required: true,
-                digits: true,
-                minlength: 11,
-                maxlength: 11
-            },
-            address: {
-                required: true,
-                minlength: 5
-            },
-            studentId: {
-                required: true,
-                minlength: 5,
-                maxlength: 10,
-            }
-        },
-        messages: {
-            firstName: {
-                required: "Please enter your first name",
-                minlength: "Your first name must be at least 3 characters long"
-            },
-            lastname: {
-                required: "Please enter your last name",
-                minlength: "Your last name must be at least 3 characters long"
-            },
-            gender: {
-                required: "Please select your gender"
-            },
-            check: {
-                required: "You must agree to the terms"
-            },
-            dob: {
-                required: "Please enter your date of birth",
-                max: "Date of birth cannot be in the future"
-            },
-            email: {
-                required: "Please enter your email",
-                email: "Please enter a valid email address"
-            },
-            phone: {
-                required: "Please enter your phone number",
-                digits: "Please enter a valid phone number",
-                minlength: "Phone number must be exactly 10 digits",
-                maxlength: "Phone number must be exactly 10 digits"
-            },
-            address: {
-                required: "Please enter your address",
-                minlength: "Address must be at least 5 characters long"
-            },
-            studentId: {
-                required: "Please enter your student ID",
-                minlength: "Student ID must be at least 5 characters long",
-                maxlength: "Student ID must be less than 10 characters",
-                pattern: "Student ID must be alphanumeric"
-            }
-        },
-        highlight: function (element) {
-            $(element).addClass("c1");
-            $(element).addClass("is-invalid");
-        },
-        unhighlight: function (element) {
-            $(element).removeClass("c1");
-            $(element).removeClass("is-invalid");
-            $(element).addClass("is-valid");
-        },
+        });
+
+       // jQuery Plugin for Drag and Drop Multiple Images
+       (function ($) {
+            $.fn.dragDropImages = function (options) {
+                // Default options
+                var settings = $.extend({
+                    maxImages: 5,
+                    placeholderText: "Drag up to 5 images here"
+                }, options);
+
+                return this.each(function () {
+                    var $dropZone = $(this);
+                    var imageCount = 0;
+
+                    // Add drop zone structure
+                    $dropZone.addClass('drop-zone').html('<span class="placeholder-text">' + settings.placeholderText + '</span>');
+
+                    // Prevent default drag behavior for the page
+                    $(document).on('dragover dragenter', function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    });
+
+                    $(document).on('drop', function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    });
+
+                    // Drag over drop zone
+                    $dropZone.on('dragover', function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        $(this).css('border-color', '#000');
+                    });
+
+                    // Drag leave drop zone
+                    $dropZone.on('dragleave', function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        $(this).css('border-color', '#ccc');
+                    });
+
+                    // Drop the image files
+                    $dropZone.on('drop', function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        $(this).css('border-color', '#ccc');
+
+                        var files = e.originalEvent.dataTransfer.files;
+
+                        if (files.length > 0) {
+                            for (var i = 0; i < files.length; i++) {
+                                if (imageCount >= settings.maxImages) {
+                                    alert('You can only upload up to ' + settings.maxImages + ' images.');
+                                    break;
+                                }
+
+                                var file = files[i];
+                                if (file.type.match('image.*')) {
+                                    var reader = new FileReader();
+
+                                    reader.onload = function (event) {
+                                        // Create container for each image
+                                        var imgContainer = $('<div class="image-container"></div>');
+                                        var img = $('<img>').attr('src', event.target.result);
+                                        var removeBtn = $('<button class="remove-btn">&times;</button>');
+
+                                        // Add image and remove button to the container
+                                        imgContainer.append(img).append(removeBtn);
+                                        $dropZone.append(imgContainer);
+
+                                        // Remove image on clicking the remove button
+                                        removeBtn.on('click', function () {
+                                            imgContainer.remove();
+                                            imageCount--;
+                                            if (imageCount === 0) {
+                                                $dropZone.find('.placeholder-text').show(); // Show placeholder text again if no images left
+                                            }
+                                        });
+
+                                        imageCount++;
+                                        if (imageCount === settings.maxImages) {
+                                            $dropZone.find('.placeholder-text').hide(); // Hide placeholder text if max images reached
+                                        }
+                                    };
+
+                                    reader.readAsDataURL(file);
+                                }
+                            }
+                        }
+                    });
+                });
+            };
+        })(jQuery);
+
+        // Initialize the plugin
+    
+            $('#my-drop-zone').dragDropImages({
+                maxImages: 5,
+                placeholderText: "Drag up to 5 images here"
+            });
+  
+        $('#bioInput').highlightBadWords({
+            badWords: ["badword1", "badword2", "badword3"]
+        });
+      
     });
 
-    });
-  
 </script>
 
 </html>
